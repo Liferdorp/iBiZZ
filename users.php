@@ -4,9 +4,6 @@ include (__DIR__."/classes/dbfunctions.php");
 include (__DIR__."/classes/errorlog.php");
 
 
-
-
-
 //$errorLog = new errorlog();
 //$errorLog->Log();
 
@@ -21,6 +18,7 @@ include (__DIR__."/classes/errorlog.php");
     <div class="userManagement">
         <a href="index.php">Home</a>
         <a href="users.php">Gebruikers</a>
+        <a href="flights.php">Flights</a>
     </div>
 
     <h1>Gebruikers</h1>

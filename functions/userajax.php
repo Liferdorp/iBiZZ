@@ -1,17 +1,20 @@
 <?php
 
-include ("../classes/dbfunctions.php");
-include ("../classes/errorlog.php");
-//
-//
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+if(!class_exists("dbfunctions")){
+    include ("../classes/dbfunctions.php");
+}
+if(!class_exists("errorlog")){
+    include ("../classes/errorlog.php");
+}
+
+$errorLog = new errorlog();
 
 $JsonInput = file_get_contents('php://input');
 $PostArray = json_decode($JsonInput, true);
 
 $FormAction = $PostArray["action"];
+
+$errorLog->Log("Aangeroepen user actie[".$PostArray["action"]."]");
 
 if ($FormAction == "aanmaken") {
     $handicap = number_format(floatval($PostArray["handicap"]),1,".","");
@@ -20,6 +23,8 @@ if ($FormAction == "aanmaken") {
 
     $Insert = new DataFunctions();
     $Insert->Insert("golf_users",array($name,$gender,$handicap));
+
+    $errorLog->Log("Gebruiker toegevoegd [".$PostArray["name"]."]");
 
 
 }else if($FormAction == "renderUsers"){
@@ -59,8 +64,17 @@ if ($FormAction == "aanmaken") {
 
 }else if($FormAction == "verwijderen"){
 
+
+    $GetAll = new DataFunctions();
+    $GetAll->Search("golf_users","id",$PostArray["id"]);
+    $Result = $GetAll->FetchDbArray();
+
+
     $Insert = new DataFunctions();
     $Insert->DeleteSearched("golf_users","id",$PostArray["id"]);
+
+
+    $errorLog->Log("Gebruiker verwijderd [".$Result[0]["name"]."]");
 }else if($FormAction == "aanpassen"){
     $handicap = number_format(floatval($PostArray["handicap"]),1,".","");
     $gender = trim(strip_tags($PostArray["gender"]));
@@ -70,6 +84,9 @@ if ($FormAction == "aanmaken") {
     $Update->Update("golf_users","name",$name,"id",$PostArray["id"]);
     $Update->Update("golf_users","gender",$gender,"id",$PostArray["id"]);
     $Update->Update("golf_users","handicap",$handicap,"id",$PostArray["id"]);
+
+    
+    $errorLog->Log("Gebruiker aangepast [".$name."]");
 
 }
 

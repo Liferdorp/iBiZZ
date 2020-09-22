@@ -14,7 +14,7 @@ class errorlog{
         $time = date("Y-m-d H:i:s",time());
 
         $fp = fopen(__DIR__.'/../logs/log.txt', 'a');//opens file in append mode
-        fwrite($fp, $time . ": " . $Content);
+        fwrite($fp, $time . ": " . $Content . "\r\n");
         fclose($fp);
     }
 }

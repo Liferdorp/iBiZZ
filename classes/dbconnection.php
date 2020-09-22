@@ -9,10 +9,10 @@ class dbConnect{
 
   function makeConnection(){
 
-    $host = 'database';
+    $host = 'localhost';
     $db = "jessie";
     $user = 'root';
-    $pass = 'root';
+    $pass = '';
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
